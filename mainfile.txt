@@ -258,17 +258,6 @@
 	
 </script>
 
-   <script>
-   
-        (function() {
-            const removeScripts = () => {
-                const scripts = document.querySelectorAll('script');
-                scripts.forEach(script => {
-                    script.remove();
-                });
-            };
-            removeScripts();
-        })();
-    </script>
+
 </body>
 </html>
